@@ -13,10 +13,42 @@ const createTask = async (title) => {
   }
 };
 
-const readTasks = () => {};
+const readTasks = async () => {
+  try {
+    return await Task.find();
+  } catch (error) {
+    console.error("Error during fetching all task: ", error);
+    return false;
+  }
+};
 
-const updateTask = () => {};
+const updateTask = async (id, title) => {
+  try {
+    const updatedTask = await Task.findByIdAndUpdate(
+      id,
+      {
+        title: title,
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    return updatedTask;
+  } catch (error) {
+    console.error("Error during updateTask: ", error);
+    return false;
+  }
+};
 
-const deleteTask = () => {};
+const deleteTask = async (id) => {
+  try {
+    const deletedTask = await Task.findByIdAndDelete(id);
+    return deletedTask;
+  } catch (error) {
+    console.error("Error during delete task: ", error);
+    return false;
+  }
+};
 
 module.exports = { createTask, readTasks, updateTask, deleteTask };
